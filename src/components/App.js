@@ -1,48 +1,30 @@
 import React, { Component }from 'react';
+import Login from './Login.js';
+import Signup from './Signup.js';
+import {BrowserRouter as Router,Link, Route } from 'react-router-dom'
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      ws: new WebSocket('ws://localhost/ws/A')
-    }
-  }
-  handleData(data) {
-    console.log(data);
-  }
-  setupWebsocket() {
-    let ws = this.state.ws;
-    ws.onopen = () => {
-      console.log('Websocket connected');
-    };
-    ws.onmessage = (evt) => {
-      this.handleData(evt.data);
-    };
-    ws.onclose = () => {
-      console.log('Websocket disconnected');
-      if (this.props.reconnect) {
-        setTimeout(() => {
-          this.setState({attempts: this.state.attempts++});
-          this.setupWebsocket();
-        }, 2000);
-      }
-    }
-  }
-  componentDidMount() {
-    this.setupWebsocket();
-  }
-  componentWillUnmount() {
-    let ws = this.state.ws;
-    ws.close();
-  }
-  render(){
+  
+  render=()=>{
     return (
       <div>
-        <h1>Hello World</h1>
-        <h3>Node.js express express-ws React, Webpack with ES6</h3>
+        <Router>
+          <div>
+            <h1>Hello Log in OR Sign up</h1>
+            <ul>
+              <li><Link to='/Login'> Login</Link> </li>
+              <li><Link to='/Signup'> Signup</Link> </li>
+            </ul>
+            <hr/>
+            <Route path = '/Login' component={Login} />
+            <Route path = '/Signup' component={Signup} />
+          </div>
+        </Router>
+        <h1>This is Osu page. Hello</h1>
       </div>
     );
   }
 }
 
 export default App;
+
